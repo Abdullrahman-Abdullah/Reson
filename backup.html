@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reson | ريزون - عالم من الإبداع الرقمي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables will be updated by JavaScript */
+        :root {
+            --primary: #6E07F3;
+            --secondary: #5BE9B9;
+            --accent: #FF5470;
+            --dark: hsl(232, 57%, 10%);
+            --darker: hsl(232, 57%, 5%);
+            --light: #f0f0f0;
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient2: linear-gradient(135deg, var(--secondary), var(--primary));
+            --primary-rgb: 110, 7, 243;
+            --text-color: var(--light);
+        }
+        *{
+          max-width: 100svw;
+          
+        }
+
+        body.light-mode {
+            --dark: hsl(232, 57%, 95%);
+            --darker: hsl(232, 57%, 98%);
+            --light: #333;
+            --text-color: #333;
+        }
+
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+            perspective: 1000px;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* تنسيق عام لجميع العناصر لضمان ظهورها بالكامل */
+        section {
+            padding: 150px 5%;
+        }
+
+        /* شريط التنقل */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: hsla(232, 57%, 5%, 0.8);
+            border-bottom: 1px solid rgba(91, 233, 185, 0.1);
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .navbar.scrolled {
+            background: hsla(232, 57%, 5%, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        body.light-mode .navbar {
+            background: hsla(232, 57%, 98%, 0.95);
+            
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 2;
+            transition: all 0.5s ease;
+            width: 100svw;
+            text-align: center;
+        }
+
+        .logo-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -150%;
+            width: 100svw;
+            height: 5px;
+            background: linear-gradient(to right, transparent, var(--secondary), transparent);
+            z-index: 1;
+            transition: transform 1.5s ease-out;
+        }
+
+        .logo-container:hover::after {
+            transform: translateX(50%);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: var(--secondary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform: translateX(-50%) scale(1);
+        }
+
+        .navbar .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .controls{
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+        }
+
+        /* شريط الألوان */
+        #lightness-slider-container {
+            position: relative;
+            width: 120px;
+            height: 25px;
+            border-radius: 50px;
+            background: linear-gradient(to right, #000, #fff);
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            
+        }
+
+        #lightness-slider-container input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            cursor: pointer;
+            z-index: 2;
+            position: relative;
+        }
+
+        #lightness-slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            cursor: grab;
+            transition: transform 0.2s ease;
+        }
+
+        #lightness-slider-container input[type="range"]::-webkit-slider-thumb:active {
+            cursor: grabbing;
+        }
+        
+        /* قائمة اللغات */
+        .language-dropdown {
+            position: relative;
+        }
+
+        .language-btn {
+            background: hsla(0, 0%, 100%, 0.05);
+            color: var(--light);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        body.light-mode .language-btn {
+            background: hsla(0, 0%, 0%, 0.05);
+            color: var(--light);
+        }
+
+        .language-menu {
+            position: absolute;
+            top: 120%;
+            left: 0;
+            background: var(--dark);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            list-style: none;
+            padding: 10px;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .language-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-menu li a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--light);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .language-menu li a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* الشاشة الرئيسية */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+            max-width: 100svw;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 100svw;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+            background:
+                radial-gradient(circle at 20% 30%, var(--primary) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--accent) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, var(--secondary) 0%, transparent 50%);
+            animation: pulse 15s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.05); }
+            100% { opacity: 0.3; transform: scale(1); }
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gradient);
+            opacity: 0.5;
+            filter: blur(5px);
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.5s;
+            max-width: 100svw;
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            max-width: 800px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s forwards 0.8s;
+            max-width: 100svw;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(107, 7, 243, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s forwards 1.1s;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(107, 7, 243, 0.5);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* قسم الخدمات والمشاريع */
+        .services, .projects, .activities {
+            padding: 150px 5%;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+            max-width: 100svw;
+        }
+        .projects { background: var(--darker); }
+        .activities { background: var(--dark); }
+
+        .services::before, .projects::before, .activities::before {
+            content: '';
+            position: absolute;
+            top: -150px;
+            left: -150px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--primary);
+            filter: blur(100px);
+            opacity: 0.1;
+            animation: move 15s infinite alternate;
+            z-index: -1;
+            max-width: 100svw;
+        }
+        .services::after, .projects::after, .activities::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            right: -150px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--accent);
+            filter: blur(100px);
+            opacity: 0.1;
+            animation: move 15s infinite alternate-reverse;
+            z-index: -1;
+        }
+
+        @keyframes move {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 50px) scale(1.2); }
+            100% { transform: translate(-50px, -50px) scale(0.8); }
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 100svw;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.5s ease;
+        }
+
+        .section-title:hover::after {
+            transform: scaleX(1);
+        }
+
+        .services-grid, .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card, .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
+            transform: translateZ(0); /* Fix for frame drops */
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body.light-mode .service-card, body.light-mode .project-card {
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .service-card::before, .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+
+        .service-card:hover, .service-card.active, .project-card:hover, .project-card.active {
+            transform: translateY(-15px) rotateX(5deg) rotateY(-5deg) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary);
+        }
+
+        .service-card:hover::before, .service-card.active::before, .project-card:hover::before, .project-card.active::before {
+            opacity: 0.1;
+        }
+
+        .service-icon, .project-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.5s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .service-card:hover .service-icon, .service-card.active .service-icon, .project-card:hover .project-icon, .project-card.active .project-icon {
+            transform: scale(1.2) translateY(-10px);
+            filter: drop-shadow(0 10px 20px rgba(var(--primary-rgb), 0.3));
+        }
+
+        .service-icon::after, .project-icon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--gradient);
+            transform: translateX(-50%);
+            transition: width 0.5s ease;
+        }
+
+        .service-card:hover .service-icon::after, .service-card.active .service-icon::after, .project-card:hover .project-icon::after, .project-card.active .project-icon::after {
+            width: 50%;
+        }
+
+        .service-title, .project-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            transition: all 0.5s ease;
+        }
+
+        .service-card:hover .service-title, .service-card.active .service-title, .project-card:hover .project-title, .project-card.active .project-title {
+            letter-spacing: 2px;
+        }
+
+        .service-desc, .project-desc {
+            opacity: 0.8;
+            margin-bottom: 20px;
+            transition: all 0.5s ease;
+            transform: translateY(20px);
+        }
+
+        .service-card:hover .service-desc, .service-card.active .service-desc, .project-card:hover .project-desc, .project-card.active .project-desc {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-features, .project-details {
+            list-style: none;
+            margin-top: 20px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .service-card:hover .service-features, .service-card.active .service-features, .project-card:hover .project-details, .project-card.active .project-details {
+            opacity: 1;
+            max-height: 200px;
+        }
+
+        .service-features li, .project-details li {
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            position: relative;
+            padding-right: 20px;
+        }
+        body.light-mode .service-features li, body.light-mode .project-details li {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .service-features li::before, .project-details li::before {
+            content: '➤';
+            position: absolute;
+            right: 0;
+            color: var(--secondary);
+        }
+
+        .service-link {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 25px;
+            background: transparent;
+            color: var(--secondary);
+            text-decoration: none;
+            border: 2px solid var(--secondary);
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .service-card:hover .service-link, .service-card.active .service-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-link:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(91, 233, 185, 0.5);
+        }
+
+        /* تعديل قسم المشاريع */
+        .project-card {
+            min-height: 350px;
+            padding-top: 70px;
+        }
+
+        .project-card .project-icon {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            
+          
+        }
+        .project-title{
+          padding-top: 20px;
+        }
+
+        .project-content {
+            text-align: center;
+        }
+
+        .project-tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* قسم أطر العمل */
+        .technologies {
+            padding: 150px 5%;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tech-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s ease-in-out;
+        }
+        body.light-mode .tech-item {
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .tech-item.highlighted {
+            transform: scale(1.1) translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(var(--primary-rgb), 0.1);
+        }
+
+        .tech-item .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+            transition: all 0.5s ease;
+        }
+
+        .tech-item.highlighted .tech-icon {
+            color: var(--primary);
+            animation: bounce 0.5s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .tech-name {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* قسم نشاطاتنا وإحصائياتنا */
+        .activities {
+            padding: 150px 5%;
+            text-align: center;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 80px;
+        }
+
+        .activity-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            border: 3px solid var(--secondary);
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        body.light-mode .activity-card {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: var(--secondary);
+        }
+
+        .activity-card:hover {
+            transform: scale(1.05) rotate(5deg);
+            background: rgba(var(--primary-rgb), 0.1);
+            border-color: var(--primary);
+        }
+
+        .activity-icon {
+            font-size: 3.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .activity-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-top: 15px;
+        }
+
+        .activity-title {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* قسم الاتصال */
+        .contact {
+            padding: 150px 5%;
+            position: relative;
+            overflow: hidden;
+            background: var(--darker);
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 84, 112, 0.05), rgba(107, 7, 243, 0.05));
+            z-index: -1;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: white;
+            animation: pulse-icon 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-icon {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(var(--primary-rgb), 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0); }
+        }
+
+        .contact-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--secondary);
+        }
+
+        .contact-details p {
+            opacity: 0.8;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .contact-form {
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 0;
+            color: var(--light);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .form-input {
+            color: var(--light);
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-label {
+            position: absolute;
+            top: 15px;
+            right: 0;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        body.light-mode .form-label {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            top: -20px;
+            right: 0;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--gradient);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        body.light-mode .submit-btn {
+            color: white;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* التذييل */
+        footer {
+            padding: 80px 5% 40px;
+            background: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--secondary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .footer-col p {
+            opacity: 0.8;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0px 20px;
+        }
+        body.light-mode .footer-links a {
+            color: var(--light);
+        }
+
+        .footer-links a::before {
+            content: '➤';
+            position: absolute;
+            right: 0;
+            color: var(--secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            padding-left: 25px;
+        }
+
+        .footer-links a:hover::before {
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        body.light-mode .social-link {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--light);
+        }
+
+        .social-link:hover {
+            background: var(--gradient);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        body.light-mode .footer-bottom {
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* تأثيرات التمرير */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(80px) rotateX(10deg);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        /* المساعد الشخصي */
+         .helper-container {
+            position: absolute;
+            bottom: 10px;
+            right:40px;
+            z-index: 1000;
+        } 
+
+        .helper-icon {
+            position: sticky;
+            bottom:10px;
+            right: 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: pulse-icon 2s infinite ease-in-out;
+            transition: transform 0.3s ease;
+            z-index: 9999999999;
+            
+        }
+
+        .helper-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .helper-popup {
+            position: sticky;
+            bottom: 80px;
+            right: 0;
+            width: 300px;
+            background: var(--dark);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            padding: 20px;
+            opacity: 0;
+            display: none;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            z-index: 9999999999;
+        }
+
+        .helper-popup.active {
+            opacity: 1;
+            display: block;
+            transform: translateY(0);
+        }
+
+        .helper-popup h3 {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .helper-popup p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .helper-popup .popup-cta {
+            background: var(--secondary);
+            color: var(--darker);
+            border: none;
+            width: 100%;
+            padding: 10px 0;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* التكيف مع الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 5%;
+            }
+            .nav-links {
+                display: none;
+            }
+            .navbar .controls {
+                gap: 10px;
+            }
+            .logo-container {
+                width: 150px;
+                overflow: visible;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p {
+                font-size: 1.3rem;
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
+            .services-grid, .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-card, .project-card {
+                min-height: 350px;
+            }
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .activities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="logo">Reson | ريزون</div>
+        </div>
+        <div class="nav-links">
+            <a href="#services" data-key="services">خدماتنا</a>
+            <a href="#projects" data-key="projects">مشاريعنا</a>
+            <a href="#technologies" data-key="technologies">تقنياتنا</a>
+            <a href="#activities" data-key="activities">نشاطاتنا</a>
+            <a href="#contact" data-key="contact">اتصل بنا</a>
+        </div>
+        
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="floating-particles" id="particles"></div>
+        <h1 data-key="hero-title">عالم من <span style="color: var(--secondary)">الإبداع الرقمي</span></h1>
+        <p data-key="hero-desc">نحن لا نبرمج تطبيقات، نخلق تجارب رقمية استثنائية</p>
+        <button class="cta-button" data-key="hero-cta">اكتشف عوالمنا</button>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="section-title" data-key="services-title">عوالمنا الإبداعية</h2>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3 class="service-title" data-key="mobile-title">عالم الجوال</h3>
+                <p class="service-desc" data-key="mobile-desc">تطبيقات جوال مبتكرة لأنظمة iOS و Android</p>
+                <ul class="service-features">
+                    <li data-key="mobile-feature-1">واجهات مستخدم تفاعلية</li>
+                    <li data-key="mobile-feature-2">أداء عالي وسريع</li>
+                    <li data-key="mobile-feature-3">تكامل مع الأنظمة</li>
+                    <li data-key="mobile-feature-4">تجربة مستخدم فريدة</li>
+                </ul>
+                <a href="#" class="service-link" data-key="explore-btn">استكشف</a>
+            </div>
+            
+            <div class="service-card fade-in">
+                <div class="service-icon"><i class="fas fa-globe"></i></div>
+                <h3 class="service-title" data-key="web-title">عالم الويب</h3>
+                <p class="service-desc" data-key="web-desc">تصميم وتطوير مواقع وتطبيقات ويب متقدمة</p>
+                <ul class="service-features">
+                    <li data-key="web-feature-1">تصميم متجاوب</li>
+                    <li data-key="web-feature-2">تقنيات حديثة</li>
+                    <li data-key="web-feature-3">تحسين لمحركات البحث</li>
+                    <li data-key="web-feature-4">واجهات تفاعلية</li>
+                </ul>
+                <a href="#" class="service-link" data-key="explore-btn">استكشف</a>
+            </div>
+            
+            <div class="service-card fade-in">
+                <div class="service-icon"><i class="fas fa-desktop"></i></div>
+                <h3 class="service-title" data-key="desktop-title">عالم سطح المكتب</h3>
+                <p class="service-desc" data-key="desktop-desc">تطوير حلول برمجية متكاملة لأنظمة التشغيل</p>
+                <ul class="service-features">
+                    <li data-key="desktop-feature-1">برامج مخصصة</li>
+                    <li data-key="desktop-feature-2">واجهات غنية</li>
+                    <li data-key="desktop-feature-3">تكامل مع الأجهزة</li>
+                    <li data-key="desktop-feature-4">أداء متقدم</li>
+                </ul>
+                <a href="#" class="service-link" data-key="explore-btn">استكشف</a>
+            </div>
+            
+            <div class="service-card fade-in">
+                <div class="service-icon"><i class="fas fa-robot"></i></div>
+                <h3 class="service-title" data-key="ai-title">عالم الذكاء الاصطناعي</h3>
+                <p class="service-desc" data-key="ai-desc">حلول ذكاء اصطناعي وتعلم آلي متطورة</p>
+                <ul class="service-features">
+                    <li data-key="ai-feature-1">تحليل البيانات</li>
+                    <li data-key="ai-feature-2">نماذج تنبؤية</li>
+                    <li data-key="ai-feature-3">معالجة اللغة</li>
+                    <li data-key="ai-feature-4">رؤية حاسوبية</li>
+                </ul>
+                <a href="#" class="service-link" data-key="explore-btn">استكشف</a>
+            </div>
+            
+            <div class="service-card fade-in">
+                <div class="service-icon"><i class="fas fa-gamepad"></i></div>
+                <h3 class="service-title" data-key="gaming-title">عالم الألعاب</h3>
+                <p class="service-desc" data-key="gaming-desc">تصميم وتطوير ألعاب إلكترونية مبتكرة</p>
+                <ul class="service-features">
+                    <li data-key="gaming-feature-1">محركات ألعاب متطورة</li>
+                    <li data-key="gaming-feature-2">جرافيكس عالي الدقة</li>
+                    <li data-key="gaming-feature-3">تجارب غامرة</li>
+                    <li data-key="gaming-feature-4">منصات متعددة</li>
+                </ul>
+                <a href="#" class="service-link" data-key="explore-btn">استكشف</a>
+            </div>
+            
+            <div class="service-card fade-in">
+                <div class="service-icon"><i class="fas fa-cloud"></i></div>
+                <h3 class="service-title" data-key="cloud-title">عالم السحابة</h3>
+                <p class="service-desc" data-key="cloud-desc">حلول سحابية متكاملة وقواعد بيانات</p>
+                <ul class="service-features">
+                    <li data-key="cloud-feature-1">بنية تحتية مرنة</li>
+                    <li data-key="cloud-feature-2">حلول قواعد بيانات</li>
+                    <li data-key="cloud-feature-3">استضافة متقدمة</li>
+                    <li data-key="cloud-feature-4">أمان وحماية</li>
+                </ul>
+                <a href="#" class="service-link" data-key="explore-btn">استكشف</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects" id="projects">
+        <h2 class="section-title" data-key="projects-title">عوالمنا المصنوعة</h2>
+        <div class="projects-grid">
+            <div class="project-card fade-in">
+                <div class="project-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3 class="project-title" data-key="project-1-title">تطبيق نيوتن</h3>
+                <ul class="project-details">
+                    <li data-key="project-1-detail-1">تطبيق لإدارة المهام</li>
+                    <li data-key="project-1-detail-2">واجهة مستخدم مبتكرة</li>
+                    <li data-key="project-1-detail-3">متوافق مع iOS و Android</li>
+                    <li data-key="project-1-detail-4">مبني على Flutter</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">iOS</span>
+                    <span class="project-tag">Android</span>
+                    <span class="project-tag">Flutter</span>
+                </div>
+            </div>
+            
+            <div class="project-card fade-in">
+                <div class="project-icon"><i class="fas fa-shopping-cart"></i></div>
+                <h3 class="project-title" data-key="project-2-title">سوق الإبداع</h3>
+                <ul class="project-details">
+                    <li data-key="project-2-detail-1">منصة تسوق إلكتروني</li>
+                    <li data-key="project-2-detail-2">تجربة مستخدم فريدة</li>
+                    <li data-key="project-2-detail-3">تقنيات دفع آمنة</li>
+                    <li data-key="project-2-detail-4">مبني على Vue.js و Node.js</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">Vue.js</span>
+                    <span class="project-tag">Node.js</span>
+                    <span class="project-tag">MongoDB</span>
+                </div>
+            </div>
+            
+            <div class="project-card fade-in">
+                <div class="project-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3 class="project-title" data-key="project-3-title">منصة التعليم الذكي</h3>
+                <ul class="project-details">
+                    <li data-key="project-3-detail-1">منصة تعليمية متكاملة</li>
+                    <li data-key="project-3-detail-2">تجربة تعلم تفاعلية</li>
+                    <li data-key="project-3-detail-3">أدوات متقدمة</li>
+                    <li data-key="project-3-detail-4">مبنية على React و AI</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">React</span>
+                    <span class="project-tag">Firebase</span>
+                    <span class="project-tag">AI</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="technologies" id="technologies">
+        <h2 class="section-title" data-key="technologies-title">عوالم تقنياتنا</h2>
+        <div class="tech-grid" id="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fab fa-react"></i></div>
+                <div class="tech-name">React</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fab fa-vuejs"></i></div>
+                <div class="tech-name">Vue.js</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fab fa-angular"></i></div>
+                <div class="tech-name">Angular</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fab fa-node-js"></i></div>
+                <div class="tech-name">Node.js</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fab fa-python"></i></div>
+                <div class="tech-name">Python</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fab fa-swift"></i></div>
+                <div class="tech-name">Swift</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fab fa-android"></i></div>
+                <div class="tech-name">Kotlin</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fab fa-aws"></i></div>
+                <div class="tech-name">AWS</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fas fa-database"></i></div>
+                <div class="tech-name">MongoDB</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon"><i class="fas fa-server"></i></div>
+                <div class="tech-name">MySQL</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="activities" id="activities">
+        <h2 class="section-title" data-key="activities-title">أرقامنا تحكي</h2>
+        <div class="activities-grid">
+            <div class="activity-card fade-in">
+                <div class="activity-icon"><i class="fas fa-users-cog"></i></div>
+                <div class="activity-number" data-target="50">0</div>
+                <div class="activity-title" data-key="team-count-title">فريقنا من المبرمجين</div>
+            </div>
+            <div class="activity-card fade-in">
+                <div class="activity-icon"><i class="fas fa-smile"></i></div>
+                <div class="activity-number" data-target="250">0</div>
+                <div class="activity-title" data-key="happy-clients-title">زبائن سعداء</div>
+            </div>
+            <div class="activity-card fade-in">
+                <div class="activity-icon"><i class="fas fa-rocket"></i></div>
+                <div class="activity-number" data-target="100">0</div>
+                <div class="activity-title" data-key="successful-projects-title">مشاريع ناجحة</div>
+            </div>
+            <div class="activity-card fade-in">
+                <div class="activity-icon"><i class="fas fa-award"></i></div>
+                <div class="activity-number" data-target="5">0</div>
+                <div class="activity-title" data-key="experience-years-title">سنوات من الخبرة</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="section-title" data-key="contact-title">لنصنع عالمك معًا</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3 data-key="contact-address-title">عنواننا</h3>
+                        <p data-key="contact-address-desc">دمشق - سوريا</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3 data-key="contact-phone-title">اتصل بنا</h3>
+                        <p data-key="contact-phone-desc">+963 981 082 693</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3 data-key="contact-email-title">البريد الإلكتروني</h3>
+                        <p data-key="contact-email-desc">info@reson.com</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3 data-key="contact-hours-title">ساعات العمل</h3>
+                        <p data-key="contact-hours-desc">الأحد - الخميس: 8 صباحًا - 6 مساءً</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-input" id="name" placeholder=" " required>
+                        <label for="name" class="form-label" data-key="contact-name">الاسم الكامل</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" class="form-input" id="email" placeholder=" " required>
+                        <label for="email" class="form-label" data-key="contact-email">البريد الإلكتروني</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-input" id="subject" placeholder=" ">
+                        <label for="subject" class="form-label" data-key="contact-subject">الموضوع</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea class="form-input form-textarea" id="message" placeholder=" " required></textarea>
+                        <label for="message" class="form-label" data-key="contact-message">رسالتك</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" data-key="contact-submit">أرسل رسالتك</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3 data-key="footer-title">ريزون</h3>
+                <p data-key="footer-desc">نحن نخلق عوالم رقمية استثنائية تجمع بين الإبداع والتقنية لتحويل أفكارك إلى واقع ملموس.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3 data-key="footer-worlds-title">عوالمنا</h3>
+                <ul class="footer-links">
+                    <li><a href="#" data-key="footer-world-1">عالم الجوال</a></li>
+                    <li><a href="#" data-key="footer-world-2">عالم الويب</a></li>
+                    <li><a href="#" data-key="footer-world-3">عالم سطح المكتب</a></li>
+                    <li><a href="#" data-key="footer-world-4">عالم الذكاء الاصطناعي</a></li>
+                    <li><a href="#" data-key="footer-world-5">عالم الألعاب</a></li>
+                    <li><a href="#" data-key="footer-world-6">عالم السحابة</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3 data-key="footer-links-title">روابط سريعة</h3>
+                <ul class="footer-links">
+                    <li><a href="#services" data-key="footer-link-1">خدماتنا</a></li>
+                    <li><a href="#projects" data-key="footer-link-2">مشاريعنا</a></li>
+                    <li><a href="#technologies" data-key="footer-link-3">تقنياتنا</a></li>
+                    <li><a href="#activities" data-key="footer-link-4">نشاطاتنا</a></li>
+                    <li><a href="#contact" data-key="footer-link-5">اتصل بنا</a></li>
+                    <li><a href="#" data-key="footer-link-6">مدونة</a></li>
+                    <li><a href="#" data-key="footer-link-7">الأسئلة الشائعة</a></li>
+                </ul>
+                <div class="controls">
+            <div id="lightness-slider-container">
+                <input type="range" id="lightness-slider" min="0" max="100" value="5">
+            </div>
+            <div class="language-dropdown">
+                <button class="language-btn">
+                    <i class="fas fa-globe"></i>
+                    <span id="current-lang-text">العربية</span>
+                </button>
+                <ul class="language-menu" style="z-index:99999;">
+                    <li><a href="#" data-lang="ar">العربية</a></li>
+                    <li><a href="#" data-lang="en">English</a></li>
+                    <li><a href="#" data-lang="tr">Türkçe</a></li>
+                </ul>
+            </div>
+        </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3 data-key="newsletter-title">النشرة البريدية</h3>
+                <p data-key="newsletter-desc">اشترك في نشرتنا البريدية لتصلك آخر أخبارنا وعروضنا.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-input" placeholder=" " required>
+                        <label class="form-label" data-key="newsletter-email">بريدك الإلكتروني</label>
+                    </div>
+                    <button type="submit" class="submit-btn" style="width: 100%" data-key="newsletter-submit">اشترك الآن</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright" data-key="copyright">© 2023 Reson | ريزون. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+   <!--  <div class="helper-container"> -->
+        <div class="helper-icon">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="helper-popup">
+            <h3 data-key="helper-title">مساعدك الشخصي</h3>
+            <p data-key="helper-desc">احسب تكلفة تطبيقك مجانًا الآن!</p>
+            <button class="popup-cta" data-key="helper-cta">ابدأ المحادثة</button>
+        </div>
+    <!-- </div> -->
+
+    <script>
+        // دالة لتحويل الألوان من نظام HSL إلى RGB
+        function hslToRgb(h, s, l) {
+            let r, g, b;
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1 / 6) return p + (q - p) * 6 * t;
+                    if (t < 1 / 2) return q;
+                    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                    return p;
+                };
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1 / 3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1 / 3);
+            }
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+        
+        // دالة توليد الألوان العشوائية
+        function generateRandomPalette() {
+            const h = Math.random();
+            const s = Math.random() * 0.4 + 0.6;
+            const l = Math.random() * 0.2 + 0.3;
+
+            const primary_hsl = [h, s, l + 0.1];
+            const secondary_hsl = [(h + 0.2) % 1, s + 0.1, l + 0.2];
+            const accent_hsl = [(h + 0.5) % 1, s, l + 0.2];
+
+            const root = document.documentElement;
+            const primary_rgb = hslToRgb(primary_hsl[0], primary_hsl[1], primary_hsl[2]);
+
+            root.style.setProperty('--primary', `hsl(${primary_hsl[0] * 360}, ${primary_hsl[1] * 100}%, ${primary_hsl[2] * 100}%)`);
+            root.style.setProperty('--secondary', `hsl(${secondary_hsl[0] * 360}, ${secondary_hsl[1] * 100}%, ${secondary_hsl[2] * 100}%)`);
+            root.style.setProperty('--accent', `hsl(${accent_hsl[0] * 360}, ${accent_hsl[1] * 100}%, ${accent_hsl[2] * 100}%)`);
+            root.style.setProperty('--primary-rgb', primary_rgb.join(','));
+        }
+
+        // إنشاء الجسيمات العائمة
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            container.innerHTML = '';
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 50 + 10;
+                const colors = [
+                    getComputedStyle(document.documentElement).getPropertyValue('--primary'),
+                    getComputedStyle(document.documentElement).getPropertyValue('--secondary'),
+                    getComputedStyle(document.documentElement).getPropertyValue('--accent')
+                ];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                particle.style.left = `${left}%`;
+                particle.style.top = `${top}%`;
+                
+                const duration = Math.random() * 30 + 20;
+                const delay = Math.random() * 5;
+                
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // كائنات النصوص للغات المختلفة
+        const translations = {
+            'ar': {
+                'services': 'خدماتنا',
+                'projects': 'مشاريعنا',
+                'technologies': 'تقنياتنا',
+                'activities': 'نشاطاتنا',
+                'contact': 'اتصل بنا',
+                'current-lang': 'العربية',
+                'hero-title': 'عالم من <span style="color: var(--secondary)">الإبداع الرقمي</span>',
+                'hero-desc': 'نحن لا نبرمج تطبيقات، نخلق تجارب رقمية استثنائية',
+                'hero-cta': 'اكتشف عوالمنا',
+                'services-title': 'عوالمنا الإبداعية',
+                'mobile-title': 'عالم الجوال',
+                'mobile-desc': 'تطبيقات جوال مبتكرة لأنظمة iOS و Android',
+                'mobile-feature-1': 'واجهات مستخدم تفاعلية',
+                'mobile-feature-2': 'أداء عالي وسريع',
+                'mobile-feature-3': 'تكامل مع الأنظمة',
+                'mobile-feature-4': 'تجربة مستخدم فريدة',
+                'explore-btn': 'استكشف',
+                'web-title': 'عالم الويب',
+                'web-desc': 'تصميم وتطوير مواقع وتطبيقات ويب متقدمة',
+                'web-feature-1': 'تصميم متجاوب',
+                'web-feature-2': 'تقنيات حديثة',
+                'web-feature-3': 'تحسين لمحركات البحث',
+                'web-feature-4': 'واجهات تفاعلية',
+                'desktop-title': 'عالم سطح المكتب',
+                'desktop-desc': 'تطوير حلول برمجية متكاملة لأنظمة التشغيل',
+                'desktop-feature-1': 'برامج مخصصة',
+                'desktop-feature-2': 'واجهات غنية',
+                'desktop-feature-3': 'تكامل مع الأجهزة',
+                'desktop-feature-4': 'أداء متقدم',
+                'ai-title': 'عالم الذكاء الاصطناعي',
+                'ai-desc': 'حلول ذكاء اصطناعي وتعلم آلي متطورة',
+                'ai-feature-1': 'تحليل البيانات',
+                'ai-feature-2': 'نماذج تنبؤية',
+                'ai-feature-3': 'معالجة اللغة',
+                'ai-feature-4': 'رؤية حاسوبية',
+                'gaming-title': 'عالم الألعاب',
+                'gaming-desc': 'تصميم وتطوير ألعاب إلكترونية مبتكرة',
+                'gaming-feature-1': 'محركات ألعاب متطورة',
+                'gaming-feature-2': 'جرافيكس عالي الدقة',
+                'gaming-feature-3': 'تجارب غامرة',
+                'gaming-feature-4': 'منصات متعددة',
+                'cloud-title': 'عالم السحابة',
+                'cloud-desc': 'حلول سحابية متكاملة وقواعد بيانات',
+                'cloud-feature-1': 'بنية تحتية مرنة',
+                'cloud-feature-2': 'حلول قواعد بيانات',
+                'cloud-feature-3': 'استضافة متقدمة',
+                'cloud-feature-4': 'أمان وحماية',
+                'projects-title': 'عوالمنا المصنوعة',
+                'project-1-title': 'تطبيق نيوتن',
+                'project-1-detail-1': 'تطبيق لإدارة المهام',
+                'project-1-detail-2': 'واجهة مستخدم مبتكرة',
+                'project-1-detail-3': 'متوافق مع iOS و Android',
+                'project-1-detail-4': 'مبني على Flutter',
+                'project-2-title': 'سوق الإبداع',
+                'project-2-detail-1': 'منصة تسوق إلكتروني',
+                'project-2-detail-2': 'تجربة مستخدم فريدة',
+                'project-2-detail-3': 'تقنيات دفع آمنة',
+                'project-2-detail-4': 'مبني على Vue.js و Node.js',
+                'project-3-title': 'منصة التعليم الذكي',
+                'project-3-detail-1': 'منصة تعليمية متكاملة',
+                'project-3-detail-2': 'تجربة تعلم تفاعلية',
+                'project-3-detail-3': 'أدوات متقدمة',
+                'project-3-detail-4': 'مبنية على React و AI',
+                'technologies-title': 'عوالم تقنياتنا',
+                'activities-title': 'أرقامنا تحكي',
+                'team-count-title': 'فريقنا من المبرمجين',
+                'happy-clients-title': 'زبائن سعداء',
+                'successful-projects-title': 'مشاريع ناجحة',
+                'experience-years-title': 'سنوات من الخبرة',
+                'contact-title': 'لنصنع عالمك معًا',
+                'contact-address-title': 'عنواننا',
+                'contact-address-desc': ` سوريا - ديرالزور - القصور
+                `,
+                'contact-phone-title': 'اتصل بنا',
+                'contact-phone-desc': '+963 981 082 693',
+                'contact-email-title': 'البريد الإلكتروني',
+                'contact-email-desc': 'info@reson.com',
+                'contact-hours-title': 'ساعات العمل',
+                'contact-hours-desc': 'الأحد - الخميس: 8 صباحًا - 6 مساءً',
+                'contact-name': 'الاسم الكامل',
+                'contact-email': 'البريد الإلكتروني',
+                'contact-subject': 'الموضوع',
+                'contact-message': 'رسالتك',
+                'contact-submit': 'أرسل رسالتك',
+                'footer-title': 'ريزون',
+                'footer-desc': 'نحن نخلق عوالم رقمية استثنائية تجمع بين الإبداع والتقنية لتحويل أفكارك إلى واقع ملموس.',
+                'footer-worlds-title': 'عوالمنا',
+                'footer-world-1': 'عالم الجوال',
+                'footer-world-2': 'عالم الويب',
+                'footer-world-3': 'عالم سطح المكتب',
+                'footer-world-4': 'عالم الذكاء الاصطناعي',
+                'footer-world-5': 'عالم الألعاب',
+                'footer-world-6': 'عالم السحابة',
+                'footer-links-title': 'روابط سريعة',
+                'footer-link-1': 'خدماتنا',
+                'footer-link-2': 'مشاريعنا',
+                'footer-link-3': 'تقنياتنا',
+                'footer-link-4': 'نشاطاتنا',
+                'footer-link-5': 'اتصل بنا',
+                'footer-link-6': 'مدونة',
+                'footer-link-7': 'الأسئلة الشائعة',
+                'newsletter-title': 'النشرة البريدية',
+                'newsletter-desc': 'اشترك في نشرتنا البريدية لتصلك آخر أخبارنا وعروضنا.',
+                'newsletter-email': 'بريدك الإلكتروني',
+                'newsletter-submit': 'اشترك الآن',
+                'copyright': '© 2023 Reson | ريزون. جميع الحقوق محفوظة.',
+                'helper-title': 'مساعدك الشخصي',
+                'helper-desc': 'احسب تكلفة تطبيقك مجانًا الآن!',
+                'helper-cta': 'ابدأ المحادثة',
+            },
+            'en': {
+                'services': 'Services',
+                'projects': 'Projects',
+                'technologies': 'Technologies',
+                'activities': 'Our Activities',
+                'contact': 'Contact Us',
+                'current-lang': 'English',
+                'hero-title': 'A world of <span style="color: var(--secondary)">Digital Creativity</span>',
+                'hero-desc': 'We don\'t just code applications; we create exceptional digital experiences.',
+                'hero-cta': 'Discover Our Worlds',
+                'services-title': 'Our Creative Worlds',
+                'mobile-title': 'Mobile World',
+                'mobile-desc': 'Innovative mobile apps for iOS and Android',
+                'mobile-feature-1': 'Interactive User Interfaces',
+                'mobile-feature-2': 'High Performance & Speed',
+                'mobile-feature-3': 'System Integration',
+                'mobile-feature-4': 'Unique User Experience',
+                'explore-btn': 'Explore',
+                'web-title': 'Web World',
+                'web-desc': 'Design and develop advanced websites & web applications',
+                'web-feature-1': 'Responsive Design',
+                'web-feature-2': 'Modern Technologies',
+                'web-feature-3': 'SEO Optimization',
+                'web-feature-4': 'Interactive Interfaces',
+                'desktop-title': 'Desktop World',
+                'desktop-desc': 'Developing integrated software solutions for operating systems',
+                'desktop-feature-1': 'Customized Programs',
+                'desktop-feature-2': 'Rich Interfaces',
+                'desktop-feature-3': 'Hardware Integration',
+                'desktop-feature-4': 'Advanced Performance',
+                'ai-title': 'AI World',
+                'ai-desc': 'Advanced AI and machine learning solutions',
+                'ai-feature-1': 'Data Analysis',
+                'ai-feature-2': 'Predictive Models',
+                'ai-feature-3': 'Natural Language Processing',
+                'ai-feature-4': 'Computer Vision',
+                'gaming-title': 'Gaming World',
+                'gaming-desc': 'Designing and developing innovative video games',
+                'gaming-feature-1': 'Advanced Game Engines',
+                'gaming-feature-2': 'High-Fidelity Graphics',
+                'gaming-feature-3': 'Immersive Experiences',
+                'gaming-feature-4': 'Cross-Platform Support',
+                'cloud-title': 'Cloud World',
+                'cloud-desc': 'Integrated cloud solutions and databases',
+                'cloud-feature-1': 'Flexible Infrastructure',
+                'cloud-feature-2': 'Database Solutions',
+                'cloud-feature-3': 'Advanced Hosting',
+                'cloud-feature-4': 'Security & Protection',
+                'projects-title': 'Our Made Worlds',
+                'project-1-title': 'Newton App',
+                'project-1-detail-1': 'Task management app',
+                'project-1-detail-2': 'Innovative user interface',
+                'project-1-detail-3': 'Compatible with iOS & Android',
+                'project-1-detail-4': 'Built on Flutter',
+                'project-2-title': 'Creative Souq',
+                'project-2-detail-1': 'E-commerce platform',
+                'project-2-detail-2': 'Unique user experience',
+                'project-2-detail-3': 'Secure payment technologies',
+                'project-2-detail-4': 'Built on Vue.js & Node.js',
+                'project-3-title': 'Smart Learning Platform',
+                'project-3-detail-1': 'Integrated educational platform',
+                'project-3-detail-2': 'Interactive learning experience',
+                'project-3-detail-3': 'Advanced tools',
+                'project-3-detail-4': 'Built with React & AI',
+                'technologies-title': 'Our Tech Worlds',
+                'activities-title': 'Our Numbers Speak',
+                'team-count-title': 'Our Team of Developers',
+                'happy-clients-title': 'Happy Clients',
+                'successful-projects-title': 'Successful Projects',
+                'experience-years-title': 'Years of Experience',
+                'contact-title': 'Let\'s Create Your World Together',
+                'contact-address-title': 'Our Address',
+                'contact-address-desc': 'Al Qusor, Dair Ez-Zoor, of Syria',
+                'contact-phone-title': 'Call Us',
+                'contact-phone-desc': '+963 981 082 693',
+                'contact-email-title': 'Email',
+                'contact-email-desc': 'info@reson.com',
+                'contact-hours-title': 'Working Hours',
+                'contact-hours-desc': 'Sunday - Thursday: 8 AM - 6 PM',
+                'contact-name': 'Full Name',
+                'contact-email': 'Email Address',
+                'contact-subject': 'Subject',
+                'contact-message': 'Your Message',
+                'contact-submit': 'Send Your Message',
+                'footer-title': 'Reson',
+                'footer-desc': 'We create exceptional digital worlds that blend creativity and technology to turn your ideas into a tangible reality.',
+                'footer-worlds-title': 'Our Worlds',
+                'footer-world-1': 'Mobile World',
+                'footer-world-2': 'Web World',
+                'footer-world-3': 'Desktop World',
+                'footer-world-4': 'AI World',
+                'footer-world-5': 'Gaming World',
+                'footer-world-6': 'Cloud World',
+                'footer-links-title': 'Quick Links',
+                'footer-link-1': 'Services',
+                'footer-link-2': 'Projects',
+                'footer-link-3': 'Technologies',
+                'footer-link-4': 'Our Activities',
+                'footer-link-5': 'Contact Us',
+                'footer-link-6': 'Blog',
+                'footer-link-7': 'FAQ',
+                'newsletter-title': 'Newsletter',
+                'newsletter-desc': 'Subscribe to our newsletter to receive our latest news and offers.',
+                'newsletter-email': 'Your Email',
+                'newsletter-submit': 'Subscribe Now',
+                'copyright': '© 2023 Reson | Reson. All rights reserved.',
+                'helper-title': 'Your Personal Helper',
+                'helper-desc': 'Calculate your app cost for free now!',
+                'helper-cta': 'Start Chat',
+            },
+            'tr': {
+                'services': 'Hizmetlerimiz',
+                'projects': 'Projelerimiz',
+                'technologies': 'Teknolojilerimiz',
+                'activities': 'Faaliyetlerimiz',
+                'contact': 'Bize Ulaşın',
+                'current-lang': 'Türkçe',
+                'hero-title': '<span style="color: var(--secondary)">Dijital Yaratıcılık</span> Dünyası',
+                'hero-desc': 'Biz sadece uygulama kodlamıyoruz; olağanüstü dijital deneyimler yaratıyoruz.',
+                'hero-cta': 'Dünyalarımızı Keşfedin',
+                'services-title': 'Yaratıcı Dünyalarımız',
+                'mobile-title': 'Mobil Dünyası',
+                'mobile-desc': 'iOS ve Android için yenilikçi mobil uygulamalar',
+                'mobile-feature-1': 'İnteraktif Kullanıcı Arayüzleri',
+                'mobile-feature-2': 'Yüksek Performans ve Hız',
+                'mobile-feature-3': 'Sistem Entegrasyonu',
+                'mobile-feature-4': 'Eşsiz Kullanıcı Deneyimi',
+                'explore-btn': 'Keşfet',
+                'web-title': 'Web Dünyası',
+                'web-desc': 'Gelişmiş web siteleri ve uygulamaları tasarlayıp geliştiriyoruz',
+                'web-feature-1': 'Duyarlı Tasarım',
+                'web-feature-2': 'Modern Teknolojiler',
+                'web-feature-3': 'SEO Optimizasyonu',
+                'web-feature-4': 'İnteraktif Arayüzler',
+                'desktop-title': 'Masaüstü Dünyası',
+                'desktop-desc': 'İşletim sistemleri için entegre yazılım çözümleri geliştiriyoruz',
+                'desktop-feature-1': 'Özel Programlar',
+                'desktop-feature-2': 'Zengin Arayüzler',
+                'desktop-feature-3': 'Donanım Entegrasyonu',
+                'desktop-feature-4': 'Gelişmiş Performans',
+                'ai-title': 'Yapay Zeka Dünyası',
+                'ai-desc': 'Gelişmiş yapay zeka ve makine öğrenimi çözümleri',
+                'ai-feature-1': 'Veri Analizi',
+                'ai-feature-2': 'Tahmine Dayalı Modeller',
+                'ai-feature-3': 'Doğal Dil İşleme',
+                'ai-feature-4': 'Bilgisayarlı Görme',
+                'gaming-title': 'Oyun Dünyası',
+                'gaming-desc': 'Yenilikçi video oyunları tasarlayıp geliştiriyoruz',
+                'gaming-feature-1': 'Gelişmiş Oyun Motorları',
+                'gaming-feature-2': 'Yüksek Çözünürlüklü Grafikler',
+                'gaming-feature-3': 'Sürükleyici Deneyimler',
+                'gaming-feature-4': 'Çapraz Platform Desteği',
+                'cloud-title': 'Bulut Dünyası',
+                'cloud-desc': 'Entegre bulut çözümleri ve veritabanları',
+                'cloud-feature-1': 'Esnek Altyapı',
+                'cloud-feature-2': 'Veritabanı Çözümleri',
+                'cloud-feature-3': 'Gelişmiş Barındırma',
+                'cloud-feature-4': 'Güvenlik ve Koruma',
+                'projects-title': 'Yapılmış Dünyalarımız',
+                'project-1-title': 'Newton Uygulaması',
+                'project-1-detail-1': 'Görev yönetimi uygulaması',
+                'project-1-detail-2': 'Yenilikçi kullanıcı arayüzü',
+                'project-1-detail-3': 'iOS ve Android ile uyumlu',
+                'project-1-detail-4': 'Flutter ile yapıldı',
+                'project-2-title': 'Yaratıcılık Pazarı',
+                'project-2-detail-1': 'E-ticaret platformu',
+                'project-2-detail-2': 'Eşsiz kullanıcı deneyimi',
+                'project-2-detail-3': 'Güvenli ödeme teknolojileri',
+                'project-2-detail-4': 'Vue.js ve Node.js ile yapıldı',
+                'project-3-title': 'Akıllı Öğrenim Platformu',
+                'project-3-detail-1': 'Entegre eğitim platformu',
+                'project-3-detail-2': 'İnteraktif öğrenme deneyimi',
+                'project-3-detail-3': 'Gelişmiş araçlar',
+                'project-3-detail-4': 'React ve AI ile yapıldı',
+                'technologies-title': 'Teknoloji Dünyalarımız',
+                'activities-title': 'Sayılarımız Konuşuyor',
+                'team-count-title': 'Geliştirici Ekibimiz',
+                'happy-clients-title': 'Mutlu Müşteriler',
+                'successful-projects-title': 'Başarılı Projeler',
+                'experience-years-title': 'Yıllık Deneyim',
+                'contact-title': 'Dünyanızı Birlikte Yaratın',
+                'contact-address-title': 'Adresimiz',
+                'contact-address-desc': 'Al Qusor, Dair Ez-Zoor, of Syria',
+                'contact-phone-title': 'Bizi Arayın',
+                'contact-phone-desc': '+963 981 082 693',
+                'contact-email-title': 'E-posta',
+                'contact-email-desc': 'info@reson.com',
+                'contact-hours-title': 'Çalışma Saatleri',
+                'contact-hours-desc': 'Pazar - Perşembe: 8:00 - 18:00',
+                'contact-name': 'Tam Adınız',
+                'contact-email': 'E-posta Adresiniz',
+                'contact-subject': 'Konu',
+                'contact-message': 'Mesajınız',
+                'contact-submit': 'Mesajınızı Gönderin',
+                'footer-title': 'Reson',
+                'footer-desc': 'Yaratıcılık ve teknolojiyi birleştirerek fikirlerinizi somut bir gerçeğe dönüştüren olağanüstü dijital dünyalar yaratıyoruz.',
+                'footer-worlds-title': 'Dünyalarımız',
+                'footer-world-1': 'Mobil Dünyası',
+                'footer-world-2': 'Web Dünyası',
+                'footer-world-3': 'Masaüstü Dünyası',
+                'footer-world-4': 'Yapay Zeka Dünyası',
+                'footer-world-5': 'Oyun Dünyası',
+                'footer-world-6': 'Bulut Dünyası',
+                'footer-links-title': 'Hızlı Bağlantılar',
+                'footer-link-1': 'Hizmetlerimiz',
+                'footer-link-2': 'Projelerimiz',
+                'footer-link-3': 'Teknolojilerimiz',
+                'footer-link-4': 'Faaliyetlerimiz',
+                'footer-link-5': 'Bize Ulaşın',
+                'footer-link-6': 'Blog',
+                'footer-link-7': 'Sıkça Sorulan Sorular',
+                'newsletter-title': 'Bülten',
+                'newsletter-desc': 'En son haberlerimizi ve tekliflerimizi almak için bültenimize abone olun.',
+                'newsletter-email': 'E-posta Adresiniz',
+                'newsletter-submit': 'Şimdi Abone Olun',
+                'copyright': '© 2023 Reson | Reson. Tüm hakları saklıdır.',
+                'helper-title': 'Kişisel Yardımcınız',
+                'helper-desc': 'Uygulama maliyetinizi şimdi ücretsiz hesaplayın!',
+                'helper-cta': 'Sohbete Başla',
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    if (key === 'hero-title') {
+                        element.innerHTML = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            document.getElementById('current-lang-text').textContent = translations[lang]['current-lang'];
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            localStorage.setItem('lang', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Restore saved language
+            const savedLang = localStorage.getItem('lang') || 'ar';
+            setLanguage(savedLang);
+
+            // Set initial range slider value from localStorage or default
+            const savedLightness = localStorage.getItem('lightness') || 10;
+            document.getElementById('lightness-slider').value = savedLightness;
+            document.documentElement.style.setProperty('--dark', `hsl(232, 57%, ${savedLightness}%)`);
+            document.documentElement.style.setProperty('--darker', `hsl(232, 57%, ${savedLightness / 2}%)`);
+            if (savedLightness > 50) {
+                 document.body.classList.add('light-mode');
+            } else {
+                 document.body.classList.remove('light-mode');
+            }
+
+
+            generateRandomPalette();
+            createParticles();
+
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            fadeElements.forEach(element => {
+                fadeObserver.observe(element);
+            });
+
+            const techItems = document.querySelectorAll('.tech-item');
+            let currentHighlighted = 0;
+            const highlightTech = () => {
+                techItems.forEach(item => item.classList.remove('highlighted'));
+                const nextItem = techItems[currentHighlighted];
+                if (nextItem) {
+                    nextItem.classList.add('highlighted');
+                }
+                currentHighlighted = (currentHighlighted + 1) % techItems.length;
+            };
+
+            const techObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        highlightTech();
+                        setInterval(highlightTech, 3000);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.2
+            });
+            const techSection = document.getElementById('technologies');
+            if (techSection) {
+                techObserver.observe(techSection);
+            }
+
+            const activityNumbers = document.querySelectorAll('.activity-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalValue = parseInt(target.getAttribute('data-target'));
+                        let currentValue = 0;
+                        const increment = Math.ceil(finalValue / 100);
+
+                        const timer = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= finalValue) {
+                                currentValue = finalValue;
+                                clearInterval(timer);
+                            }
+                            target.textContent = currentValue;
+                        }, 10);
+                        observer.unobserve(target);
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+
+            activityNumbers.forEach(number => {
+                observer.observe(number);
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            if (window.matchMedia("(max-width: 768px)").matches) {
+                const cards = document.querySelectorAll('.service-card, .project-card');
+                const observerMobile = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                        } else {
+                            entry.target.classList.remove('active');
+                        }
+                    });
+                }, {
+                    threshold: 0.7
+                });
+                cards.forEach(card => {
+                    observerMobile.observe(card);
+                });
+            }
+
+            // وظيفة التحكم في شريط إضاءة الخلفية
+            const lightnessSlider = document.getElementById('lightness-slider');
+            lightnessSlider.addEventListener('input', (e) => {
+                const lightness = e.target.value;
+                const root = document.documentElement;
+                const body = document.body;
+                
+                // Change background color lightness
+                root.style.setProperty('--dark', `hsl(232, 57%, ${lightness}%)`);
+                root.style.setProperty('--darker', `hsl(232, 57%, ${lightness / 2}%)`);
+                
+                // Toggle light/dark mode class based on lightness value
+                if (lightness > 50) {
+                    body.classList.add('light-mode');
+                } else {
+                    body.classList.remove('light-mode');
+                }
+
+                // Save lightness value to local storage
+                localStorage.setItem('lightness', lightness);
+            });
+
+            // وظيفة قائمة اللغات
+            const langBtn = document.querySelector('.language-btn');
+            const langMenu = document.querySelector('.language-menu');
+            const langLinks = document.querySelectorAll('.language-menu a');
+            
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langMenu.classList.toggle('active');
+            });
+
+            langLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = link.getAttribute('data-lang');
+                    setLanguage(lang);
+                    langMenu.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
+                    langMenu.classList.remove('active');
+                }
+            });
+
+            // وظيفة المساعد الشخصي
+            const helperIcon = document.querySelector('.helper-icon');
+            const helperPopup = document.querySelector('.helper-popup');
+
+            helperIcon.addEventListener('click', () => {
+                helperPopup.classList.toggle('active');
+            });
+        });
+
+        window.onload = function() {
+            generateRandomPalette();
+            createParticles();
+        };
+    </script>
+</body>
+</html>
